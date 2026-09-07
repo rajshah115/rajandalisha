@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Alisha & Raj — You're Invited</title>
+<title>Raj & Alisha — You're Invited</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -25,13 +25,14 @@
     --sprig:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20160%20160%27%3E%3Cg%20stroke%3D%27%23a7b592%27%20stroke-width%3D%272%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M18%20142%20Q70%2096%20142%2026%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23a7b592%27%20opacity%3D%270.85%27%3E%3Cellipse%20cx%3D%27120%27%20cy%3D%2744%27%20rx%3D%277%27%20ry%3D%2716%27%20transform%3D%27rotate%2835%20120%2044%29%27%2F%3E%3Cellipse%20cx%3D%27132%27%20cy%3D%2758%27%20rx%3D%276%27%20ry%3D%2714%27%20transform%3D%27rotate%28-20%20132%2058%29%27%2F%3E%3Cellipse%20cx%3D%2792%27%20cy%3D%2772%27%20rx%3D%278%27%20ry%3D%2718%27%20transform%3D%27rotate%2840%2092%2072%29%27%2F%3E%3Cellipse%20cx%3D%27104%27%20cy%3D%2786%27%20rx%3D%276%27%20ry%3D%2714%27%20transform%3D%27rotate%28-18%20104%2086%29%27%2F%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%27104%27%20rx%3D%278%27%20ry%3D%2718%27%20transform%3D%27rotate%2845%2060%20104%29%27%2F%3E%3Cellipse%20cx%3D%2774%27%20cy%3D%27116%27%20rx%3D%276%27%20ry%3D%2714%27%20transform%3D%27rotate%28-15%2074%20116%29%27%2F%3E%3Cellipse%20cx%3D%2734%27%20cy%3D%27130%27%20rx%3D%277%27%20ry%3D%2716%27%20transform%3D%27rotate%2848%2034%20130%29%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23cdbb8b%27%3E%3Ccircle%20cx%3D%27141%27%20cy%3D%2730%27%20r%3D%274%27%2F%3E%3Ccircle%20cx%3D%27151%27%20cy%3D%2740%27%20r%3D%273.5%27%2F%3E%3Ccircle%20cx%3D%27147%27%20cy%3D%2752%27%20r%3D%273%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{background:var(--navy-dp)}
+  html,body{background:#e7e2d6}
   body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ivory);line-height:1.55;overflow-x:hidden}
   ::selection{background:var(--gold);color:var(--navy-dp)}
   .u{font-family:"Jost",system-ui,sans-serif}
 
   /* ---------- ENVELOPE INTRO ---------- */
-  html.locked,body.locked{overflow:hidden;height:100%;overscroll-behavior:none;touch-action:none}
+  html.locked{overflow:hidden}
+  body.locked{position:fixed;inset:0;width:100%;overflow:hidden;overscroll-behavior:none;touch-action:none}
   #gate{position:fixed;inset:0;z-index:100;cursor:pointer;perspective:1600px;touch-action:none;overscroll-behavior:none;
     background:radial-gradient(120% 90% at 50% 42%,#f6f2ea,#e5e0d4 78%);
     transition:opacity 1.2s ease 1.9s, visibility 0s linear 3.1s}
@@ -324,10 +325,13 @@
 
   /* ---- open envelope ---- */
   var gate=document.getElementById('gate'),opened=false;
+  function blockTouch(e){e.preventDefault();}
+  gate.addEventListener('touchmove',blockTouch,{passive:false});
   function open(){
     if(opened)return;opened=true;
     document.documentElement.classList.remove('locked');
     document.body.classList.remove('locked');
+    gate.removeEventListener('touchmove',blockTouch);
     gate.classList.add('open');
     setTimeout(function(){gate.style.display='none';}, reduce?100:3200);
     document.querySelectorAll('.hero .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('in');},160+i*140);});
