@@ -283,8 +283,8 @@
       <h2>Will you be there?</h2>
       <p class="sub">Kindly reply by the tenth of February</p>
       <div class="btns">
-        <button class="btn primary" data-msg="Amazing &mdash; we can&rsquo;t wait to celebrate with you.">Count me in</button>
-        <button class="btn" data-msg="You&rsquo;ll be missed &mdash; thank you for letting us know.">Can&rsquo;t make it</button>
+        <button class="btn primary" data-rsvp="yes">Count me in</button>
+        <button class="btn" data-rsvp="no">Can&rsquo;t make it</button>
       </div>
       <div class="toast" id="toast"></div>
       <p class="contact">Questions? Call the families at +91&nbsp;98&nbsp;•••••&nbsp;210</p>
@@ -359,9 +359,22 @@
   }
   tick();setInterval(tick,1000);
 
-  /* ---- rsvp ---- */
+  /* ---- rsvp via WhatsApp ---- */
   var toast=document.getElementById('toast');
-  document.querySelectorAll('.rsvp .btn').forEach(function(b){b.addEventListener('click',function(){toast.innerHTML=b.getAttribute('data-msg');toast.classList.add('show');});});
+  var RSVP_PHONE="917977596352";
+  document.querySelectorAll('.rsvp .btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var yes=b.getAttribute('data-rsvp')==='yes';
+      var lines=["Hi! RSVP for Raj & Alisha's wedding \uD83D\uDC8D","","Name: ","Attending: "+(yes?"Yes":"No")];
+      if(yes) lines.push("Guests (incl. me): ");
+      var url="https://wa.me/"+RSVP_PHONE+"?text="+encodeURIComponent(lines.join("\n"));
+      window.open(url,"_blank","noopener");
+      toast.innerHTML = yes
+        ? "Opening WhatsApp \u2014 just fill your name &amp; hit send \uD83D\uDC9B"
+        : "Opening WhatsApp \u2014 let us know, and thank you.";
+      toast.classList.add('show');
+    });
+  });
 
   if(reduce){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');});}
 })();
